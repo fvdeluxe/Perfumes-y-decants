@@ -320,6 +320,7 @@ html[data-theme=light] .emb img{filter:none;mix-blend-mode:normal}
 <button class="btn p go" id="send">Enviar pedido por WhatsApp</button>
 <p class="fine">Se abrirá WhatsApp con tu pedido ya escrito. Solo envíalo.<br>Precios en pesos mexicanos (MXN). No pedimos contraseñas ni números de cuenta.</p></div></div>
 <div class="toast" id="toast" hidden></div>
+<div class="cf" id="nd" hidden><div class="cfb"><h4>Sin descuento en tu selección</h4><p>A tu pedido no se le está aplicando ningún descuento, ya que elegiste decants en los que no se aplican descuentos.</p><p>Si continúas, tu pedido se agregará como decants individuales y no como una oferta de Combo 5D's. ¿Deseas continuar?</p><div class="cfa"><button class="btn" id="ndno" type="button">Cancelar</button><button class="btn p" id="ndok" type="button">Continuar</button></div></div></div>
 <div class="cf" id="wc" hidden><div class="cfb"><h4>Confirma tu pedido</h4><p>Estás a punto de hacer tu pedido por WhatsApp. Se abrirá una conversación con tu pedido ya escrito.</p>
 <label class="ck"><input type="checkbox" id="ck1"><span>Estoy de acuerdo en pagar la tarifa de envío, en caso de que se requiera.</span></label>
 <label class="ck"><input type="checkbox" id="ck2"><span>Estoy seguro de que mi pedido es el correcto.</span></label>
@@ -513,7 +514,7 @@ const up=e=>{if(!g)return;g=false;if(mv<6){const f=document.elementsFromPoint(e.
 ["pointerup","pointercancel"].forEach(v=>w.addEventListener(v,up));
 (function t(n){const dt=Math.min(3,(n-lt)/16.67||1);lt=n;if(!g){vy+=(sp0-vy)*Math.min(1,.02*dt);vx*=Math.pow(.95,dt);ay+=vy*dt;ax+=vx*dt;ax+=((((-14-ax)+180)%360+360)%360-180)*Math.min(1,.01*dt)}c.style.transform=`rotateX(${ax}deg) rotateY(${ay}deg)`;requestAnimationFrame(t)})(0)})();
 /* combo 5D's */
-(function(){const dec=P.filter(p=>p.t==="d"&&!p.soon),N=5,sel={};
+(function(){const dec=P.filter(p=>p.t==="d"&&!p.soon),N=5,sel={};let ndx=0,ndy=0;
 const pr=b=>b>50?Math.max(50,b-10):b;
 const qn=()=>Object.values(sel).reduce((a,b)=>a+b,0),tot=()=>dec.reduce((a,p)=>a+(sel[p.id]||0)*pr(p.s[0][1]),0);
 const nm=p=>p.b+" "+p.n,th=p=>GAL[p.gal()[0]],list=$("clist");
@@ -526,7 +527,9 @@ list.addEventListener("click",e=>{const b=e.target.closest("button[data-d]");if(
 window.cbState=()=>{const off=comboLeft()<=0;$("cuses").textContent="Esta oferta está disponible para usarse solamente 2 veces."+(comboUsed()>0?" Usos restantes: "+Math.max(0,2-comboUsed())+" de 2.":"");$("cunl").hidden=comboUsed()<2;$("cstart").disabled=off;if(off){$("cpk").hidden=true;$("cstart").hidden=false}$("cstart").textContent=off?"Oferta no disponible":"Armar mi combo";const n=$("cnote");n.hidden=!off;n.textContent=comboUsed()>=2?"Ya usaste los 2 combos de esta oferta en este dispositivo.":"Ya tienes 2 combos en tu pedido."};
 $("cstart").onclick=()=>{if(comboLeft()<=0)return;$("cpk").hidden=false;$("cstart").hidden=true;ui()};
 $("cclr").onclick=()=>{for(const k in sel)delete sel[k];ui()};
-$("cadd").onclick=e=>{if(qn()!==N)return;if(comboLeft()<=0){toast("Solo puedes pedir 2 combos con esta oferta");return}const parts=dec.filter(p=>sel[p.id]).map(p=>sel[p.id]+" "+nm(p)),key="combo:"+dec.map(p=>sel[p.id]||0).join("-"),price=tot();
+$("ndno").onclick=()=>{$("nd").hidden=true};$("nd").addEventListener("pointerdown",e=>{if(e.target===$("nd"))$("nd").hidden=true});
+$("ndok").onclick=()=>{$("nd").hidden=true;if(qn()!==N)return;dec.filter(p=>sel[p.id]).forEach(p=>{const key=p.id+"-0";if(cart[key])cart[key].q+=sel[p.id];else cart[key]={name:"Decant 5 ml — "+p.b+" "+p.n,price:p.s[0][1],q:sel[p.id],img:th(p)}});for(const k in sel)delete sel[k];ui();upd();toast("Decants agregados al carrito");fly(ndx,ndy)};
+$("cadd").onclick=e=>{if(qn()!==N)return;if(tot()===dec.reduce((a,p)=>a+(sel[p.id]||0)*p.s[0][1],0)){ndx=e.clientX||innerWidth/2;ndy=e.clientY||innerHeight/2;$("nd").hidden=false;return}if(comboLeft()<=0){toast("Solo puedes pedir 2 combos con esta oferta");return}const parts=dec.filter(p=>sel[p.id]).map(p=>sel[p.id]+" "+nm(p)),key="combo:"+dec.map(p=>sel[p.id]||0).join("-"),price=tot();
 if(cart[key])cart[key].q+=1;else cart[key]={name:"Combo 5D's ("+parts.join(", ")+")",price,orig:dec.reduce((a,p)=>a+(sel[p.id]||0)*p.s[0][1],0),q:1,img:GAL.combo};
 for(const k in sel)delete sel[k];ui();upd();toast("Combo agregado al carrito");fly(e.clientX||innerWidth/2,e.clientY||innerHeight/2)};window.cbState()})();
 /* cupones */
