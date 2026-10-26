@@ -256,6 +256,13 @@ html[data-theme=light] .emb img{filter:none;mix-blend-mode:normal}
 #intro.out #icv{opacity:0}
 #intro .ic{z-index:2}
 .icnt u{background:var(--holo);background-size:300% 100%;animation:ht 2.6s linear infinite;box-shadow:0 0 10px rgba(190,140,255,.6)}
+.cpk{margin-top:16px}.cpk[hidden]{display:none}
+.cr{display:flex;align-items:center;gap:12px;padding:8px 6px;border-top:1px solid var(--ln);transition:background .3s}.cr.on{background:rgba(255,255,255,.05)}
+.cr img{width:44px;height:44px;object-fit:contain;background:#fff;flex:none}.cr span{flex:1;font-size:14px}
+.cr .qty b{min-width:26px;text-align:center;font-weight:500;font-size:14px}.cr .qty button{width:34px;height:34px}.cr .qty button:disabled{opacity:.3;cursor:default}
+.cpk .rw{margin-top:14px;gap:14px}.cmp b{font-size:38px}.cm2 #cstart{margin-top:4px}
+.add:disabled{opacity:.45;cursor:not-allowed;animation:none}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rip,.fx,#intro{display:none}}
 </style></head>
 <body>
@@ -281,9 +288,12 @@ html[data-theme=light] .emb img{filter:none;mix-blend-mode:normal}
 <div class="ctl"><button class="ib" id="prev" aria-label="Anterior"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button><div class="dots" id="dots"></div><button class="ib" id="next" aria-label="Siguiente"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button></div></section>
 <section id="combo"><div class="cmb rv"><div class="cmi im" id="cmi"><img id="cmimg" alt="Combo 5D's"></div>
 <div class="cm2"><p class="eye">Oferta · Por tiempo limitado</p><h2>Combo <em>5D's</em></h2>
-<p class="cmd">Un combo de 5 decants de 5 ml, uno de cada perfume: Lattafa Khamrah, Afnan 9pm, Armaf Mandarín Sky, Versace Eros y Dolce &amp; Gabbana Pour Homme.</p>
-<div class="cmp"><b>$280</b></div>
-<div class="rw"><div class="qty"><button id="cqm" aria-label="Menos">−</button><span id="cqn">1</span><button id="cqp" aria-label="Más">+</button></div><button class="add" id="cadd"><span class="ht">Agregar combo</span></button></div>
+<p class="cmd">Arma tu combo de 5 decants de 5 ml. Elige los que quieras; puedes repetir el mismo perfume.</p>
+<div class="cmp"><b id="cprice">Desde $250</b><span id="ccnt" hidden>0 / 5</span></div>
+<button class="btn p" id="cstart" type="button">Armar mi combo</button>
+<p class="fine" id="cnote" hidden style="text-align:left"></p>
+<div class="cpk" id="cpk" hidden><div id="clist"></div>
+<div class="rw"><button class="add" id="cadd" type="button" disabled><span class="ht" id="caddt">Elige 5 decants</span></button><button class="x" id="cclr" type="button">Limpiar</button></div></div>
 <p class="fine" style="text-align:left">Precio especial por tiempo limitado. Edición limitada.</p></div></div></section>
 <section id="catalogo"><div class="hd rv"><p class="eye">02 — Catálogo</p><h2>Decants y <em>perfumes</em></h2><p class="sub">Elige la cantidad, agrégala al carrito y haz tu pedido por WhatsApp.</p></div>
 <div class="tabs" id="tabs"><button class="on" data-f="all">Todo</button><button data-f="d">Decants 5 ml</button><button data-f="f">Perfumes completos</button></div><div id="cat"></div></section>
@@ -430,7 +440,7 @@ const cart={};const count=()=>Object.values(cart).reduce((a,i)=>a+i.q,0),sub=()=
 /* CUPONES: aquí se agregan los cupones futuros. Ejemplo: "CODIGO10":{tipo:"porcentaje",valor:10} o "CODIGO50":{tipo:"monto",valor:50} */
 const COUPONS={};let cupon=null;const disc=()=>{if(!cupon)return 0;const s=sub();return Math.min(s,cupon.tipo==="porcentaje"?Math.round(s*cupon.valor/100):cupon.valor)},total=()=>Math.max(0,sub()-disc());let tt;
 function toast(t){if(/agregad|Cupón aplicado|Abriendo WhatsApp/i.test(t)&&window.fvMono)window.fvMono.cele();const e=$("toast");e.textContent=t;e.hidden=false;clearTimeout(tt);tt=setTimeout(()=>e.hidden=true,2200)}
-function upd(){const c=count();$("bar").hidden=c===0;$("cc").hidden=c===0;$("cc").textContent=c;$("bc").textContent=c+(c===1?" producto":" productos")+" · $"+fmt(total());if(!$("dr").hidden)draw()}
+function upd(){if(window.cbState)window.cbState();const c=count();$("bar").hidden=c===0;$("cc").hidden=c===0;$("cc").textContent=c;$("bc").textContent=c+(c===1?" producto":" productos")+" · $"+fmt(total());if(!$("dr").hidden)draw()}
 function message(){const l=Object.values(cart).map(i=>`- ${i.q} x ${i.name} ($${fmt(i.q*i.price)})`),z=$("zone").value;
 return `Hola, quiero hacer este pedido de FVShop:\n\n${l.join("\n")}\n\n${cupon?`Cupón: ${cupon.codigo} (-$${fmt(disc())})\n`:""}Total: $${fmt(total())}\nZona: ${z==="Otra zona"?"Otra zona ("+$("other").value.trim()+")":z||"(sin elegir)"}\nEntrega: ${z==="Otra zona"?"con costo de envío":"en punto de entrega cercano"}\n\nQuedo al pendiente, gracias.`}
 function draw(){const it=Object.entries(cart);if(!it.length){$("dr").hidden=true;return}
@@ -439,9 +449,9 @@ cnt($("tot"),total());{const d=disc();$("dsc").hidden=!d;$("dsc").innerHTML=d?`<
 const openC=()=>{if(count()){$("dr").hidden=false;draw();$("list").classList.add("enter");setTimeout(()=>$("list").classList.remove("enter"),900)}else toast("Tu carrito está vacío")};
 $("open").onclick=$("cartb").onclick=openC;$("close").onclick=()=>$("dr").hidden=true;$("dr").addEventListener("pointerdown",e=>{if(e.target===$("dr"))$("dr").hidden=true});
 $("zone").onchange=()=>{$("other").hidden=$("zone").value!=="Otra zona";if(!$("other").hidden)$("other").focus();$("msg").value=message();$("send").classList.toggle("ready",!!$("zone").value)};$("other").oninput=()=>$("msg").value=message();
-$("list").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;const i=cart[b.dataset.k],a=b.dataset.a;if(a==="m")i.q=Math.max(1,i.q-1);if(a==="p")i.q=Math.min(50,i.q+1);if(a==="del"){const rw=b.closest(".it"),kk=b.dataset.k;rw.classList.add("gone");setTimeout(()=>{delete cart[kk];upd()},300);return}upd();{const q=$("list").querySelector(`.qty button[data-k="${b.dataset.k}"]`);if(q)q.parentNode.querySelector("span").animate([{transform:"scale(1.6)"},{transform:"scale(1)"}],{duration:280,easing:"ease-out"})}});
+$("list").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;const i=cart[b.dataset.k],a=b.dataset.a;if(a==="m")i.q=Math.max(1,i.q-1);if(a==="p"){if(b.dataset.k.startsWith("combo:")&&comboLeft()<=0){toast("Solo puedes pedir 2 combos con esta oferta");return}i.q=Math.min(50,i.q+1)}if(a==="del"){const rw=b.closest(".it"),kk=b.dataset.k;rw.classList.add("gone");setTimeout(()=>{delete cart[kk];upd()},300);return}upd();{const q=$("list").querySelector(`.qty button[data-k="${b.dataset.k}"]`);if(q)q.parentNode.querySelector("span").animate([{transform:"scale(1.6)"},{transform:"scale(1)"}],{duration:280,easing:"ease-out"})}});
 $("send").onclick=()=>{const zv=$("zone").value;if(!zv||(zv==="Otra zona"&&!$("other").value.trim())){const s=$("sv");s.classList.remove("err");void s.offsetWidth;s.classList.add("err");(zv?$("other"):$("zone")).focus();toast(zv?"Escribe cuál es tu zona":"Selecciona tu zona para continuar");return}
-const l=document.createElement("a");l.href="https://wa.me/"+WA+"?text="+encodeURIComponent($("msg").value);l.target="_blank";l.rel="noopener";document.body.appendChild(l);l.click();l.remove();toast("Abriendo WhatsApp con tu pedido");if(cupon)usedAdd(cupon.codigo)};
+const l=document.createElement("a");l.href="https://wa.me/"+WA+"?text="+encodeURIComponent($("msg").value);l.target="_blank";l.rel="noopener";document.body.appendChild(l);l.click();l.remove();toast("Abriendo WhatsApp con tu pedido");if(cupon)usedAdd(cupon.codigo);comboCount()};
 /* visor de imágenes */
 let lbP=null;const lbL=()=>GL(lbP);
 function lbShow(){const i=$("lbi"),g=lbL();i.src=GAL[g[lbP.gi%g.length]];i.classList.remove("z");i.style.transformOrigin="";$("lbp").style.display=$("lbn").style.display=$("lbc").style.display=g.length<2?"none":"";$("lbc").textContent=(lbP.gi%g.length+1)+" / "+g.length;const im=document.querySelector(`.cd[data-id="${lbP.id}"] .im`);if(im)im.innerHTML=imBox(lbP)}
@@ -487,12 +497,29 @@ const up=e=>{if(!g)return;g=false;if(mv<6){const f=document.elementsFromPoint(e.
 ["pointerup","pointercancel"].forEach(v=>w.addEventListener(v,up));
 (function t(n){const dt=Math.min(3,(n-lt)/16.67||1);lt=n;if(!g){vy+=(sp0-vy)*Math.min(1,.02*dt);vx*=Math.pow(.95,dt);ay+=vy*dt;ax+=vx*dt;ax+=((((-14-ax)+180)%360+360)%360-180)*Math.min(1,.01*dt)}c.style.transform=`rotateX(${ax}deg) rotateY(${ay}deg)`;requestAnimationFrame(t)})(0)})();
 /* combo 5D's */
-(function(){const C={id:"c1",b:"FVShop",n:"Combo 5D's",gal:()=>["combo"],gi:0,i:0};let q=1;$("cmimg").src=GAL.combo;
-$("cmi").onclick=()=>openLb(C);
-$("cqm").onclick=()=>$("cqn").textContent=q=Math.max(1,q-1);$("cqp").onclick=()=>$("cqn").textContent=q=Math.min(10,q+1);
-$("cadd").onclick=e=>{const k="combo";if(cart[k])cart[k].q+=q;else cart[k]={name:"Combo 5D's (5 decants de 5 ml, uno de cada perfume)",price:280,q,img:GAL.combo};q=1;$("cqn").textContent=1;upd();toast("Combo agregado al carrito");fly(e.clientX||innerWidth/2,e.clientY||innerHeight/2)}})();
+(function(){const dec=P.filter(p=>p.t==="d"&&!p.soon),N=5,sel={};
+const pr=b=>b>50?Math.max(50,b-10):b;
+const qn=()=>Object.values(sel).reduce((a,b)=>a+b,0),tot=()=>dec.reduce((a,p)=>a+(sel[p.id]||0)*pr(p.s[0][1]),0);
+const nm=p=>p.b+" "+p.n,th=p=>GAL[p.gal()[0]],list=$("clist");
+$("cmimg").src=GAL.combo;$("cmi").onclick=()=>openLb({id:"c1",b:"FVShop",n:"Combo 5D's",gal:()=>["combo"],gi:0,i:0});
+list.innerHTML=dec.map(p=>`<div class="cr" data-id="${p.id}"><img src="${th(p)}" alt=""><span>${nm(p)}</span><div class="qty"><button type="button" data-d="-1" aria-label="Menos">−</button><b>0</b><button type="button" data-d="1" aria-label="Más">+</button></div></div>`).join("");
+function ui(){const c=qn();list.querySelectorAll(".cr").forEach(r=>{const q=sel[r.dataset.id]||0;r.querySelector("b").textContent=q;r.classList.toggle("on",q>0);r.querySelector('[data-d="1"]').disabled=c>=N;r.querySelector('[data-d="-1"]').disabled=q<=0});
+$("cprice").textContent=c?"$"+fmt(tot()):"Desde $250";const cc=$("ccnt");cc.hidden=!c;cc.textContent=c+" / "+N;
+const ok=c===N;$("cadd").disabled=!ok;$("caddt").textContent=ok?"Agregar combo":(c?"Faltan "+(N-c):"Elige 5 decants")}
+list.addEventListener("click",e=>{const b=e.target.closest("button[data-d]");if(!b||b.disabled)return;const id=b.closest(".cr").dataset.id,d=+b.dataset.d;if(d>0&&qn()>=N)return;sel[id]=Math.max(0,(sel[id]||0)+d);ui();$("cprice").animate([{transform:"scale(1.1)"},{transform:"scale(1)"}],{duration:220})});
+window.cbState=()=>{const off=comboLeft()<=0;$("cstart").disabled=off;if(off){$("cpk").hidden=true;$("cstart").hidden=false}$("cstart").textContent=off?"Oferta no disponible":"Armar mi combo";const n=$("cnote");n.hidden=!off;n.textContent=comboUsed()>=2?"Ya usaste los 2 combos de esta oferta en este dispositivo.":"Ya tienes 2 combos en tu pedido."};
+$("cstart").onclick=()=>{if(comboLeft()<=0)return;$("cpk").hidden=false;$("cstart").hidden=true;ui()};
+$("cclr").onclick=()=>{for(const k in sel)delete sel[k];ui()};
+$("cadd").onclick=e=>{if(qn()!==N)return;if(comboLeft()<=0){toast("Solo puedes pedir 2 combos con esta oferta");return}const parts=dec.filter(p=>sel[p.id]).map(p=>sel[p.id]+" "+nm(p)),key="combo:"+dec.map(p=>sel[p.id]||0).join("-"),price=tot();
+if(cart[key])cart[key].q+=1;else cart[key]={name:"Combo 5D's ("+parts.join(", ")+")",price,q:1,img:GAL.combo};
+for(const k in sel)delete sel[k];ui();upd();toast("Combo agregado al carrito");fly(e.clientX||innerWidth/2,e.clientY||innerHeight/2)};window.cbState()})();
 /* cupones */
 const CK="fv-cupones-usados";
+function comboUsed(){try{return Math.min(2,+localStorage.getItem("fv-combos-usados")||0)}catch(e){return 0}}
+function comboInCart(){return Object.entries(cart).filter(([k])=>k.startsWith("combo:")).reduce((a,[,v])=>a+Math.max(0,v.q-(v.counted||0)),0)}
+function comboLeft(){return Math.max(0,2-comboUsed()-comboInCart())}
+function comboCount(){let add=0;for(const [k,v] of Object.entries(cart)){if(k.startsWith("combo:")){const n=v.q-(v.counted||0);if(n>0){add+=n;v.counted=v.q}}}
+if(add){try{localStorage.setItem("fv-combos-usados",String(Math.min(2,comboUsed()+add)))}catch(e){}}upd()}
 function usedHas(c){try{return JSON.parse(localStorage.getItem(CK)||"[]").includes(c)}catch(e){return false}}
 function usedAdd(c){try{const a=JSON.parse(localStorage.getItem(CK)||"[]");if(!a.includes(c)){a.push(c);localStorage.setItem(CK,JSON.stringify(a))}}catch(e){}}
 function cnt(el,to){const from=el._v||0;el._v=to;const t0=performance.now();el.style.transformOrigin="right center";
