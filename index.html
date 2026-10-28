@@ -231,7 +231,7 @@ html[data-theme=light] .cf{filter:invert(1)}
 .cup{margin:14px 0 4px}.cup label{margin:0 0 6px}
 .cupr{display:flex;gap:8px}.cupr input{flex:1;min-width:0;text-transform:uppercase;letter-spacing:.12em}
 .cupr .btn{padding:0 18px;white-space:nowrap}.cupr.err{animation:sh .4s}
-.cupm{margin:6px 0 0;font-size:12px;color:var(--mu)}.cupm.bad{color:#ff8f8f}.cupm.ok{color:#b8ffd8}.cupm.warn{color:#ffd98a}.cfw{color:#ffd98a}
+.cupm{margin:6px 0 0;font-size:12px;color:var(--mu)}.cupm.bad{color:#ff8f8f}.cupm.ok{color:#b8ffd8}.cupm.warn{color:#ffd98a}.wah{display:flex;justify-content:space-between;align-items:baseline;gap:10px}.cfw{color:#ffd98a}
 .dsc{display:flex;justify-content:space-between;font-size:13px;color:#b8ffd8;padding:8px 0 0}.dsc[hidden]{display:none}
 .halo.b{display:none}
 .emb img{mix-blend-mode:normal;filter:none;box-shadow:none;background:#000}
@@ -298,13 +298,9 @@ html[data-theme=light] .emb img{filter:none;mix-blend-mode:normal}
 <p class="cmd">Arma tu combo de 5 decants de 5 ml. Elige los que quieras; puedes repetir el mismo perfume.</p>
 <div class="cmp"><b id="cprice">Desde $250</b><span id="ccnt" hidden>0 / 5</span></div>
 <p class="cori" id="cori" hidden>Precio original del pedido: <span id="coriv"></span></p>
-<div class="cup" id="cwa"><label for="cwan">Tu número de WhatsApp</label><div class="cupr"><input id="cwan" type="tel" inputmode="numeric" autocomplete="tel" maxlength="14" placeholder="10 dígitos, ej. 6861234567"><button class="btn" id="cwab" type="button">Continuar</button></div><p class="cupm" id="cwam" hidden></p></div>
 <button class="btn p" id="cstart" type="button">Armar mi combo</button>
-<p class="fine" id="cnote" hidden style="text-align:left"></p>
 <div class="cpk" id="cpk" hidden><div id="clist"></div>
 <div class="rw"><button class="add" id="cadd" type="button" disabled><span class="ht" id="caddt">Elige 5 decants</span></button><button class="x" id="cclr" type="button">Limpiar</button></div></div>
-<p class="fine" id="cuses" style="text-align:left"></p>
-<button class="x" id="cwch" type="button" hidden>Cambiar número</button>
 <p class="fine" style="text-align:left">Precio especial por tiempo limitado. Edición limitada.</p></div></div></section>
 <section id="catalogo"><div class="hd rv"><p class="eye">02 — Catálogo</p><h2>Decants y <em>perfumes</em></h2><p class="sub">Elige la cantidad, agrégala al carrito y haz tu pedido por WhatsApp.</p></div>
 <div class="tabs" id="tabs"><button class="on" data-f="all">Todo</button><button data-f="d">Decants 5 ml</button><button data-f="f">Perfumes completos</button></div><div id="cat"></div></section>
@@ -317,20 +313,21 @@ html[data-theme=light] .emb img{filter:none;mix-blend-mode:normal}
 <div id="list"></div><div class="cup"><label for="cup">Código de cupón</label><div class="cupr" id="cupr"><input id="cup" type="text" placeholder="Ingresa tu código" autocomplete="off" autocapitalize="characters" maxlength="24"><button class="btn" id="cupb" type="button">Aplicar</button></div><p class="cupm" id="cupm" hidden></p></div>
 <div class="ori" id="ori" hidden></div><div class="dsc" id="dsc" hidden></div><div class="tot"><span>Total</span><span id="tot"></span></div>
 <div class="sv" id="sv"><label for="zone">Selecciona la zona donde vives</label><select id="zone"><option value="">Elige una zona</option><option>Valle del Pedregal</option><option>Valle de Puebla</option><option>Ángeles de Puebla</option><option>Ejido Puebla</option><option>Otra zona</option></select><input id="other" type="text" placeholder="¿Cuál zona?" autocomplete="off" hidden style="margin-top:8px"></div>
-<label for="wanum">Tu número de WhatsApp</label>
+<div class="wah"><label for="wanum">Tu número de contacto</label><button class="x" id="wainfo" type="button">Información</button></div>
 <div class="cupr" id="warow"><input id="wanum" type="tel" inputmode="numeric" autocomplete="tel" maxlength="14" placeholder="Ej. 6861234567"><button class="btn" id="walock" type="button" hidden>Cambiar</button></div>
 <p class="cupm" id="wanm" hidden></p>
 <label for="msg">Mensaje que se enviará</label><textarea id="msg"></textarea>
 <button class="btn p go" id="send">Enviar pedido por WhatsApp</button>
 <p class="fine">Se abrirá WhatsApp con tu pedido ya escrito. Solo envíalo.<br>Precios en pesos mexicanos (MXN). No pedimos contraseñas ni números de cuenta.</p></div></div>
 <div class="toast" id="toast" hidden></div>
-<div class="cf" id="cfwa" hidden><div class="cfb"><h4>Confirma tu número</h4><p>Tu número es <b class="cfwnum"></b>.</p><p>Este número quedará asociado <b>permanentemente</b> a este dispositivo. Podrás cambiarlo con el botón "Cambiar" del carrito. ¿Es correcto?</p><div class="cfa"><button class="btn" id="cfwano" type="button">Cancelar</button><button class="btn p" id="cfwaok" type="button">Sí, es correcto</button></div></div></div>
+<div class="cf" id="wai" hidden><div class="cfb"><h4>¿Qué número pongo?</h4><p>Escribe un número de contacto <b>diferente</b> al WhatsApp con el que nos escribes tu pedido.</p><p>Es para tener otra forma de comunicarnos contigo. Puede ser el de un familiar, tu pareja o alguien de confianza.</p><p>Si no tienes otro número, simplemente pon el tuyo.</p><div class="cfa"><button class="btn p" id="waiok" type="button">Entendido</button></div></div></div>
+<div class="cf" id="cfwa" hidden><div class="cfb"><h4>Confirma tu número</h4><p>Tu número es <b class="cfwnum"></b>.</p><p>Recuerda: debe ser un número <b>diferente</b> al WhatsApp con el que nos escribes (puede ser de un familiar o tu pareja). Si no tienes otro, está bien que uses el tuyo.</p><p>Este número quedará asociado <b>permanentemente</b> a este dispositivo. Podrás cambiarlo con el botón "Cambiar" del carrito. ¿Es correcto?</p><div class="cfa"><button class="btn" id="cfwano" type="button">Cancelar</button><button class="btn p" id="cfwaok" type="button">Sí, es correcto</button></div></div></div>
 <div class="cf" id="nd" hidden><div class="cfb"><h4>Sin descuento en tu selección</h4><p>A tu pedido no se le está aplicando ningún descuento, ya que elegiste decants en los que no se aplican descuentos.</p><p>Si continúas, tu pedido se agregará como decants individuales y no como una oferta de Combo 5D's. ¿Deseas continuar?</p><div class="cfa"><button class="btn" id="ndno" type="button">Cancelar</button><button class="btn p" id="ndok" type="button">Continuar</button></div></div></div>
 <div class="cf" id="wc" hidden><div class="cfb"><h4>Confirma tu pedido</h4><p>Estás a punto de hacer tu pedido por WhatsApp. Se abrirá una conversación con tu pedido ya escrito.</p>
 <label class="ck"><input type="checkbox" id="ck1"><span>Estoy de acuerdo en pagar la tarifa de envío, en caso de que se requiera.</span></label>
 <label class="ck"><input type="checkbox" id="ck2"><span>Estoy seguro de que mi pedido es el correcto.</span></label>
 <div class="cfa"><button class="btn" id="wno" type="button">Volver</button><button class="btn p" id="wok" type="button" disabled>Enviar a WhatsApp</button></div></div></div>
-<div class="cf" id="cn" hidden><div class="cfb"><h4>Tu cupón sigue vigente</h4><p id="cnt"></p><div class="cfa"><button class="btn p" id="cnok" type="button">Entendido</button></div></div></div>
+<div class="cf" id="cn" hidden><div class="cfb"><h4 id="cnh">Tu cupón sigue vigente</h4><p id="cnt"></p><div class="cfa"><button class="btn p" id="cnok" type="button">Entendido</button></div></div></div>
 <div class="cf" id="cf" hidden><div class="cfb"><h4>Cupón de un solo uso</h4><p class="cfw" id="cfn" hidden></p><p>El cupón <b id="cfc"></b> es de un solo uso. Una vez que lo uses y se aplique, ya no tendrá validez de nuevo en ningún pedido.</p><p>¿Estás de acuerdo? Elige si quieres continuar con el cupón o cancelar su uso.</p><div class="cfa"><button class="btn" id="cfno" type="button">Cancelar</button><button class="btn p" id="cfok" type="button">Estoy de acuerdo, continuar</button></div></div></div>
 <div class="scube" id="scube" aria-label="Redes sociales"><div class="scb" id="scb">
 <div class="sf sf1" data-href="https://www.instagram.com/fvshopmx/"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".8" fill="#fff"/></svg></div>
@@ -464,14 +461,14 @@ const disc=()=>{if(!cupon)return 0;const s=catBase(cupon.categoria||null);return
 function toast(t){if(/agregad|Cupón aplicado|Abriendo WhatsApp/i.test(t)&&window.fvMono)window.fvMono.cele();const e=$("toast");e.textContent=t;e.hidden=false;clearTimeout(tt);tt=setTimeout(()=>e.hidden=true,2200)}
 function upd(){if(window.cbState)window.cbState();if(window.cupNote)window.cupNote();const c=count();$("bar").hidden=c===0;$("cc").hidden=c===0;$("cc").textContent=c;$("bc").textContent=c+(c===1?" producto":" productos")+" · $"+fmt(total());if(!$("dr").hidden)draw()}
 function message(){const l=Object.values(cart).map(i=>`- ${i.q} x ${i.name} ($${fmt(i.q*i.price)}${i.orig&&i.orig!==i.price?`, precio original $${fmt(i.q*i.orig)}`:""})`),z=$("zone").value;
-return `Hola, quiero hacer este pedido de FVShop:\nNúmero WhatsApp: ${waNum||"(sin número)"}\n\n${l.join("\n")}\n\n${cupon?`Cupón: ${cupon.codigo} (-$${fmt(disc())})\n`:""}Total: $${fmt(total())}\nZona: ${z==="Otra zona"?"Otra zona ("+$("other").value.trim()+")":z||"(sin elegir)"}\nEntrega: ${z==="Otra zona"?"con costo de envío":"en punto de entrega cercano"}\n\nQuedo al pendiente, gracias.`}
+return `Hola, quiero hacer este pedido de FVShop:\nNúmero de contacto: ${waNum||"(sin número)"}\n\n${l.join("\n")}\n\n${cupon?`Cupón: ${cupon.codigo} (-$${fmt(disc())})\n`:""}Total: $${fmt(total())}\nZona: ${z==="Otra zona"?"Otra zona ("+$("other").value.trim()+")":z||"(sin elegir)"}\nEntrega: ${z==="Otra zona"?"con costo de envío":"en punto de entrega cercano"}\n\nQuedo al pendiente, gracias.`}
 function draw(){const it=Object.entries(cart);if(!it.length){$("dr").hidden=true;return}
 $("list").innerHTML=it.map(([k,i],n)=>`<div class="it" style="--i:${n}"><img src="${i.img}" alt=""><div>${i.name}<small>$${fmt(i.price)} c/u${i.orig&&i.orig!==i.price?` · precio original <s>$${fmt(i.orig)}</s>`:""}</small><button class="x" data-k="${k}" data-a="del">Quitar</button></div><div class="qty"><button data-k="${k}" data-a="m">−</button><span>${i.q}</span><button data-k="${k}" data-a="p">+</button></div></div>`).join("");
 cnt($("tot"),total());{const o=origSum(),s=sub();$("ori").hidden=!(o>s);$("ori").innerHTML=o>s?`<span>Precio original del pedido</span><span><s>$${fmt(o)}</s></span>`:""}{const d=disc();$("dsc").hidden=!d;$("dsc").innerHTML=d?`<span>Descuento (${cupon.codigo})</span><span>−$${fmt(d)}</span>`:""}$("msg").value=message()}
 const openC=()=>{if(count()){$("dr").hidden=false;draw();$("list").classList.add("enter");setTimeout(()=>$("list").classList.remove("enter"),900)}else toast("Tu carrito está vacío")};
 $("open").onclick=$("cartb").onclick=openC;$("close").onclick=()=>$("dr").hidden=true;$("dr").addEventListener("pointerdown",e=>{if(e.target===$("dr"))$("dr").hidden=true});
 $("zone").onchange=()=>{$("other").hidden=$("zone").value!=="Otra zona";if(!$("other").hidden)$("other").focus();$("msg").value=message();$("send").classList.toggle("ready",!!$("zone").value)};$("other").oninput=()=>$("msg").value=message();
-$("list").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;const i=cart[b.dataset.k],a=b.dataset.a;if(a==="m")i.q=Math.max(1,i.q-1);if(a==="p"){if(b.dataset.k.startsWith("combo:")&&comboLeft()<=0){toast("Solo puedes pedir 2 combos con esta oferta");return}i.q=Math.min(50,i.q+1)}if(a==="del"){const rw=b.closest(".it"),kk=b.dataset.k;rw.classList.add("gone");setTimeout(()=>{delete cart[kk];upd()},300);return}upd();{const q=$("list").querySelector(`.qty button[data-k="${b.dataset.k}"]`);if(q)q.parentNode.querySelector("span").animate([{transform:"scale(1.6)"},{transform:"scale(1)"}],{duration:280,easing:"ease-out"})}});
+$("list").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;const i=cart[b.dataset.k],a=b.dataset.a;if(a==="m")i.q=Math.max(1,i.q-1);if(a==="p"){i.q=Math.min(50,i.q+1)}if(a==="del"){const rw=b.closest(".it"),kk=b.dataset.k;rw.classList.add("gone");setTimeout(()=>{delete cart[kk];upd()},300);return}upd();{const q=$("list").querySelector(`.qty button[data-k="${b.dataset.k}"]`);if(q)q.parentNode.querySelector("span").animate([{transform:"scale(1.6)"},{transform:"scale(1)"}],{duration:280,easing:"ease-out"})}});
 $("send").onclick=()=>{const zv=$("zone").value;if(!zv||(zv==="Otra zona"&&!$("other").value.trim())){const s=$("sv");s.classList.remove("err");void s.offsetWidth;s.classList.add("err");(zv?$("other"):$("zone")).focus();toast(zv?"Escribe cuál es tu zona":"Selecciona tu zona para continuar");return}
 if(window.ensureWa){window.ensureWa(()=>{$("ck1").checked=$("ck2").checked=false;$("wok").disabled=true;$("wc").hidden=false})}};async function doSend(){let keep=null;if(cupon&&cupon.categoria&&catBase(cupon.categoria)===0){keep=cupon;cupon=null;$("msg").value=message()}
 const href="https://wa.me/"+WA+"?text="+encodeURIComponent($("msg").value);
@@ -480,7 +477,7 @@ try{const r=await rpc("usar_cupon",{p_codigo:cupon.codigo,p_whatsapp:waDigits()}
 if(!r||!r.ok){toast("Este cupón ya no está disponible y se quitó de tu pedido. Revisa tu total.");cupon=null;$("cup").disabled=false;$("cup").value="";$("cupb").textContent="Aplicar";$("cupm").hidden=true;upd();return}}
 catch(e){toast("No se pudo confirmar el cupón. Revisa tu conexión e intenta de nuevo.");return}}
 const w=window.open(href,"_blank");if(w){try{w.opener=null}catch(e){}}else{location.href=href}
-toast("¡Pedido enviado! Te esperamos en WhatsApp.");for(const k in cart)delete cart[k];cupon=null;try{$("cup").disabled=false;$("cup").value="";$("cupb").textContent="Aplicar";$("cupm").hidden=true}catch(e){}upd();$("dr").hidden=true;comboCount();if(keep){const n=(({d:"Decant",f:"perfume completo",combo:"combo"})[keep.categoria])||"producto de esa categoría";$("cnt").innerHTML="Tu cupón <b></b> no se utilizó porque su descuento es válido solo en "+(({d:"Decants",f:"Perfumes completos",combo:"Combos"})[keep.categoria]||"esa categoría")+" y tu pedido no incluyó ningún "+n+". Sigue vigente y lo puedes usar en un próximo pedido.";$("cnt").querySelector("b").textContent=keep.codigo;$("cn").hidden=false}}
+toast("¡Pedido enviado! Te esperamos en WhatsApp.");for(const k in cart)delete cart[k];cupon=null;try{$("cup").disabled=false;$("cup").value="";$("cupb").textContent="Aplicar";$("cupm").hidden=true}catch(e){}upd();$("dr").hidden=true;comboCount();if(keep){$("cnh").textContent="Tu cupón sigue vigente";const n=(({d:"Decant",f:"perfume completo",combo:"combo"})[keep.categoria])||"producto de esa categoría";$("cnt").innerHTML="Tu cupón <b></b> no se utilizó porque su descuento es válido solo en "+(({d:"Decants",f:"Perfumes completos",combo:"Combos"})[keep.categoria]||"esa categoría")+" y tu pedido no incluyó ningún "+n+". Sigue vigente y lo puedes usar en un próximo pedido.";$("cnt").querySelector("b").textContent=keep.codigo;$("cn").hidden=false}}
 const cks=()=>{$("wok").disabled=!($("ck1").checked&&$("ck2").checked)};$("ck1").onchange=$("ck2").onchange=cks;$("wno").onclick=()=>{$("wc").hidden=true};$("cnok").onclick=()=>{$("cn").hidden=true};$("cn").addEventListener("pointerdown",e=>{if(e.target===$("cn"))$("cn").hidden=true});
 $("wok").onclick=()=>{if(!($("ck1").checked&&$("ck2").checked))return;$("wc").hidden=true;doSend()};$("wc").addEventListener("pointerdown",e=>{if(e.target===$("wc"))$("wc").hidden=true});
 /* visor de imágenes */
@@ -539,28 +536,24 @@ function ui(){const c=qn();list.querySelectorAll(".cr").forEach(r=>{const q=sel[
 $("cprice").textContent=c?"$"+fmt(tot()):"Desde $250";{const o=dec.reduce((a,p)=>a+(sel[p.id]||0)*p.s[0][1],0);$("cori").hidden=!c;if(c){$("coriv").textContent="$"+fmt(o);$("coriv").className=o>tot()?"diff":""}}const cc=$("ccnt");cc.hidden=!c;cc.textContent=c+" / "+N;
 const ok=c===N;$("cadd").disabled=!ok;$("caddt").textContent=ok?"Agregar combo":(c?"Faltan "+(N-c):"Elige 5 decants")}
 list.addEventListener("click",e=>{const b=e.target.closest("button[data-d]");if(!b||b.disabled)return;const id=b.closest(".cr").dataset.id,d=+b.dataset.d;if(d>0&&qn()>=N)return;sel[id]=Math.max(0,(sel[id]||0)+d);ui();$("cprice").animate([{transform:"scale(1.1)"},{transform:"scale(1)"}],{duration:220})});
-window.cbState=()=>{const known=srvUsed!==null,off=known&&comboLeft()<=0;
-$("cwa").hidden=known;$("cwch").hidden=!known;
-$("cuses").textContent="Esta oferta está disponible para usarse solamente 2 veces."+(known?" Usos restantes: "+Math.max(0,2-comboUsed())+" de 2 (número ••••"+waNum.slice(-4)+").":"");
-$("cstart").disabled=!known||off;if(!known||off){$("cpk").hidden=true;$("cstart").hidden=false}
-$("cstart").textContent=off?"Oferta no disponible":"Armar mi combo";
-const n=$("cnote");n.hidden=known&&!off;n.textContent=!known?"Escribe tu número de WhatsApp para usar esta oferta.":comboUsed()>=2?"Ya usaste los 2 combos de esta oferta con este número. Si crees que es un error, escríbenos por WhatsApp.":"Ya tienes 2 combos en tu pedido."};
-$("cstart").onclick=()=>{if(comboLeft()<=0)return;$("cpk").hidden=false;$("cstart").hidden=true;ui()};
+window.cbState=()=>{};
+$("cstart").onclick=()=>{$("cpk").hidden=false;$("cstart").hidden=true;ui()};
 $("cclr").onclick=()=>{for(const k in sel)delete sel[k];ui()};
 $("ndno").onclick=()=>{$("nd").hidden=true};$("nd").addEventListener("pointerdown",e=>{if(e.target===$("nd"))$("nd").hidden=true});
 $("ndok").onclick=()=>{$("nd").hidden=true;if(qn()!==N)return;dec.filter(p=>sel[p.id]).forEach(p=>{const key=p.id+"-0";if(cart[key])cart[key].q+=sel[p.id];else cart[key]={name:"Decant 5 ml — "+p.b+" "+p.n,price:p.s[0][1],q:sel[p.id],img:th(p)}});for(const k in sel)delete sel[k];ui();upd();toast("Decants agregados al carrito");fly(ndx,ndy)};
-$("cadd").onclick=e=>{if(qn()!==N)return;if(tot()===dec.reduce((a,p)=>a+(sel[p.id]||0)*p.s[0][1],0)){ndx=e.clientX||innerWidth/2;ndy=e.clientY||innerHeight/2;$("nd").hidden=false;return}if(comboLeft()<=0){toast("Solo puedes pedir 2 combos con esta oferta");return}const parts=dec.filter(p=>sel[p.id]).map(p=>sel[p.id]+" "+nm(p)),key="combo:"+dec.map(p=>sel[p.id]||0).join("-"),price=tot();
+$("cadd").onclick=e=>{if(qn()!==N)return;if(tot()===dec.reduce((a,p)=>a+(sel[p.id]||0)*p.s[0][1],0)){ndx=e.clientX||innerWidth/2;ndy=e.clientY||innerHeight/2;$("nd").hidden=false;return}const parts=dec.filter(p=>sel[p.id]).map(p=>sel[p.id]+" "+nm(p)),key="combo:"+dec.map(p=>sel[p.id]||0).join("-"),price=tot();
 if(cart[key])cart[key].q+=1;else cart[key]={name:"Combo 5D's ("+parts.join(", ")+")",price,orig:dec.reduce((a,p)=>a+(sel[p.id]||0)*p.s[0][1],0),q:1,img:GAL.combo,cat:"combo"};
 for(const k in sel)delete sel[k];ui();upd();toast("Combo agregado al carrito");fly(e.clientX||innerWidth/2,e.clientY||innerHeight/2)};window.cbState()})();
 /* número de WhatsApp del carrito */
 (function(){const inp=$("wanum"),lock=$("walock"),msg=$("wanm");
 function say(t,c){msg.hidden=!t;msg.textContent=t||"";msg.className="cupm "+(c||"")}
-function setNum(n){waNum=n;try{localStorage.setItem("fv-wa",n)}catch(e){};inp.value=n.replace(/(\d{3})(\d{3})(\d{4})/,"$1-$2-$3");inp.disabled=true;lock.hidden=false;if(typeof flushPend==="function")flushPend();say("Número guardado permanentemente en este dispositivo.","ok")}
+function setNum(n){waNum=n;try{localStorage.setItem("fv-wa",n)}catch(e){};inp.value=n.replace(/(\d{3})(\d{3})(\d{4})/,"$1-$2-$3");inp.disabled=true;lock.hidden=false;if(typeof flushPend==="function")flushPend().catch(()=>{});say("Número guardado permanentemente en este dispositivo.","ok")}
 try{const s=localStorage.getItem("fv-wa");if(s&&s.length>=10){waNum=s;setNum(s)}}catch(e){}
-lock.onclick=()=>{inp.disabled=false;inp.value="";lock.hidden=true;waNum="";try{localStorage.removeItem("fv-wa")}catch(e){}say("")};
+lock.onclick=()=>{inp.disabled=false;inp.value="";lock.hidden=true;waNum="";srvUsed=null;upd();try{localStorage.removeItem("fv-wa")}catch(e){}say("")};
+$("wainfo").onclick=()=>{$("wai").hidden=false};$("waiok").onclick=()=>{$("wai").hidden=true;if(!inp.disabled)inp.focus()};$("wai").addEventListener("pointerdown",e=>{if(e.target===$("wai"))$("wai").hidden=true});
 $("cfwano").onclick=()=>{$("cfwa").hidden=true;say("")};
 $("cfwaok").onclick=()=>{const d=window._waPend;window._waPend=null;if(!d)return;$("cfwa").hidden=true;setNum(d);upd();$("send").click()};
-window.ensureWa=function(cont){if(waNum.length>=10){cont();return};const d=inp.value.replace(/\D/g,"");if(d.length<10){say("Escribe tu número de WhatsApp (10 dígitos) para enviar tu pedido","bad");inp.focus();return};window._waPend=d;$("cfwa").querySelector(".cfwnum").textContent=d.replace(/(\d{3})(\d{3})(\d{4})/,"$1-$2-$3");$("cfwa").hidden=false}})();
+window.ensureWa=function(cont){if(waNum.length>=10){cont();return};const d=inp.value.replace(/\D/g,"");if(d.length<10){say("Escribe tu número de contacto (10 dígitos) para enviar tu pedido","bad");$("wai").hidden=false;return};window._waPend=d;$("cfwa").querySelector(".cfwnum").textContent=d.replace(/(\d{3})(\d{3})(\d{4})/,"$1-$2-$3");$("cfwa").hidden=false}})();
 /* cupones y combos con Supabase */
 /* ===== Conexión con Supabase (cupones y combos) ===== */
 const SB_URL="https://urssyzbdeblgwixkgfwn.supabase.co",SB_KEY="sb_publishable_GHHG2eqBn6HvP2DX6xj0Pg_7kUw6VMX";
@@ -568,9 +561,7 @@ async function rpc(fn,args){const ctl=new AbortController(),to=setTimeout(()=>ct
 try{const r=await fetch(SB_URL+"/rest/v1/rpc/"+fn,{method:"POST",headers:{"apikey":SB_KEY,"Content-Type":"application/json"},body:JSON.stringify(args),signal:ctl.signal});if(!r.ok)throw new Error("http "+r.status);return await r.json()}finally{clearTimeout(to)}}
 try{waNum=localStorage.getItem("fv-wa")||""}catch(e){}
 const waDigits=()=>waNum.replace(/\D/g,"");
-function comboUsed(){return srvUsed===null?0:Math.min(2,srvUsed)}
 function comboInCart(){return Object.entries(cart).filter(([k])=>k.startsWith("combo:")).reduce((a,[,v])=>a+Math.max(0,v.q-(v.counted||0)),0)}
-function comboLeft(){return srvUsed===null?0:Math.max(0,2-comboUsed()-comboInCart())}
 function origSum(){return Object.values(cart).reduce((a,i)=>a+i.q*(i.orig||i.price),0)}
 const pendGet=()=>{try{return JSON.parse(localStorage.getItem("fv-pend")||"[]")}catch(e){return[]}},pendSet=a=>{try{localStorage.setItem("fv-pend",JSON.stringify(a))}catch(e){}};
 async function comboCount(){let add=0;for(const [k,v] of Object.entries(cart)){if(k.startsWith("combo:")){const n=v.q-(v.counted||0);if(n>0){add+=n;v.counted=v.q}}}
@@ -580,17 +571,6 @@ async function flushPend(){const a=pendGet(),rest=[];for(const j of a){try{const
 function cnt(el,to){const from=el._v||0;el._v=to;const t0=performance.now();el.style.transformOrigin="right center";
 (function s(n){const p=Math.min(1,(n-t0)/380),e=1-Math.pow(1-p,3);el.textContent="$"+fmt(Math.round(from+(to-from)*e));if(p<1)requestAnimationFrame(s)})(t0);
 if(from!==to&&el.animate)el.animate([{transform:"scale(1.14)"},{transform:"scale(1)"}],{duration:320,easing:"ease-out"})}
-/* número de WhatsApp para la oferta de combos */
-(function(){const inp=$("cwan"),btn=$("cwab"),msg=$("cwam");inp.value=waNum;
-const say=(t,c)=>{msg.hidden=!t;msg.textContent=t||"";msg.className="cupm "+(c||"")};
-async function check(){const d=inp.value.replace(/\D/g,"");if(d.length<10){say("Escribe tu número de WhatsApp a 10 dígitos");return}
-btn.disabled=true;btn.textContent="Verificando…";
-try{const u=await rpc("combos_usados",{p_whatsapp:d});srvUsed=+u||0;waNum=d;try{localStorage.setItem("fv-wa",d)}catch(e){}say("")}
-catch(e){say("No se pudo verificar tu número. Revisa tu conexión e intenta de nuevo.","bad")}
-btn.disabled=false;btn.textContent="Continuar";upd()}
-btn.onclick=check;inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();check()}});
-$("cwch").onclick=()=>{srvUsed=null;waNum="";inp.value="";try{localStorage.removeItem("fv-wa")}catch(e){}upd()};
-if(waNum.length>=10)check()})();
 /* cupones validados en el servidor */
 (function(){const inp=$("cup"),btn=$("cupb"),msg=$("cupm"),cf=$("cf");let pend=null,busy=false;
 const CATN={d:["Decants","Decant"],f:["Perfumes completos","perfume completo"],combo:["Combos","combo"]},catNm=c=>CATN[c]||[c,"producto de esa categoría"],hasCat=c=>Object.values(cart).some(i=>i.cat===c);
