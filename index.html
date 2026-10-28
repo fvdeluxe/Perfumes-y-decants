@@ -231,7 +231,7 @@ html[data-theme=light] .cf{filter:invert(1)}
 .cup{margin:14px 0 4px}.cup label{margin:0 0 6px}
 .cupr{display:flex;gap:8px}.cupr input{flex:1;min-width:0;text-transform:uppercase;letter-spacing:.12em}
 .cupr .btn{padding:0 18px;white-space:nowrap}.cupr.err{animation:sh .4s}
-.cupm{margin:6px 0 0;font-size:12px;color:var(--mu)}.cupm.bad{color:#ff8f8f}.cupm.ok{color:#b8ffd8}
+.cupm{margin:6px 0 0;font-size:12px;color:var(--mu)}.cupm.bad{color:#ff8f8f}.cupm.ok{color:#b8ffd8}.cupm.warn{color:#ffd98a}.cfw{color:#ffd98a}
 .dsc{display:flex;justify-content:space-between;font-size:13px;color:#b8ffd8;padding:8px 0 0}.dsc[hidden]{display:none}
 .halo.b{display:none}
 .emb img{mix-blend-mode:normal;filter:none;box-shadow:none;background:#000}
@@ -330,7 +330,8 @@ html[data-theme=light] .emb img{filter:none;mix-blend-mode:normal}
 <label class="ck"><input type="checkbox" id="ck1"><span>Estoy de acuerdo en pagar la tarifa de envío, en caso de que se requiera.</span></label>
 <label class="ck"><input type="checkbox" id="ck2"><span>Estoy seguro de que mi pedido es el correcto.</span></label>
 <div class="cfa"><button class="btn" id="wno" type="button">Volver</button><button class="btn p" id="wok" type="button" disabled>Enviar a WhatsApp</button></div></div></div>
-<div class="cf" id="cf" hidden><div class="cfb"><h4>Cupón de un solo uso</h4><p>El cupón <b id="cfc"></b> es de un solo uso. Una vez que lo uses y se aplique, ya no tendrá validez de nuevo en ningún pedido.</p><p>¿Estás de acuerdo? Elige si quieres continuar con el cupón o cancelar su uso.</p><div class="cfa"><button class="btn" id="cfno" type="button">Cancelar</button><button class="btn p" id="cfok" type="button">Estoy de acuerdo, continuar</button></div></div></div>
+<div class="cf" id="cn" hidden><div class="cfb"><h4>Tu cupón sigue vigente</h4><p id="cnt"></p><div class="cfa"><button class="btn p" id="cnok" type="button">Entendido</button></div></div></div>
+<div class="cf" id="cf" hidden><div class="cfb"><h4>Cupón de un solo uso</h4><p class="cfw" id="cfn" hidden></p><p>El cupón <b id="cfc"></b> es de un solo uso. Una vez que lo uses y se aplique, ya no tendrá validez de nuevo en ningún pedido.</p><p>¿Estás de acuerdo? Elige si quieres continuar con el cupón o cancelar su uso.</p><div class="cfa"><button class="btn" id="cfno" type="button">Cancelar</button><button class="btn p" id="cfok" type="button">Estoy de acuerdo, continuar</button></div></div></div>
 <div class="scube" id="scube" aria-label="Redes sociales"><div class="scb" id="scb">
 <div class="sf sf1" data-href="https://www.instagram.com/fvshopmx/"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".8" fill="#fff"/></svg></div>
 <div class="sf sf2" data-href="https://www.tiktok.com/@.fvshop"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.4 2.4 2 4 4.5 4.2"/></svg></div>
@@ -461,7 +462,7 @@ let waNum="",srvUsed=null;const cart={};const count=()=>Object.values(cart).redu
 const COUPONS={};let cupon=null;const catBase=(cat)=>Object.values(cart).reduce((a,i)=>a+(cat?i.cat===cat?i.q*i.price:0:i.q*i.price),0);
 const disc=()=>{if(!cupon)return 0;const s=catBase(cupon.categoria||null);return Math.min(s,cupon.tipo==="porcentaje"?Math.round(s*cupon.valor/100):cupon.valor)},total=()=>Math.max(0,sub()-disc());let tt;
 function toast(t){if(/agregad|Cupón aplicado|Abriendo WhatsApp/i.test(t)&&window.fvMono)window.fvMono.cele();const e=$("toast");e.textContent=t;e.hidden=false;clearTimeout(tt);tt=setTimeout(()=>e.hidden=true,2200)}
-function upd(){if(window.cbState)window.cbState();const c=count();$("bar").hidden=c===0;$("cc").hidden=c===0;$("cc").textContent=c;$("bc").textContent=c+(c===1?" producto":" productos")+" · $"+fmt(total());if(!$("dr").hidden)draw()}
+function upd(){if(window.cbState)window.cbState();if(window.cupNote)window.cupNote();const c=count();$("bar").hidden=c===0;$("cc").hidden=c===0;$("cc").textContent=c;$("bc").textContent=c+(c===1?" producto":" productos")+" · $"+fmt(total());if(!$("dr").hidden)draw()}
 function message(){const l=Object.values(cart).map(i=>`- ${i.q} x ${i.name} ($${fmt(i.q*i.price)}${i.orig&&i.orig!==i.price?`, precio original $${fmt(i.q*i.orig)}`:""})`),z=$("zone").value;
 return `Hola, quiero hacer este pedido de FVShop:\nNúmero WhatsApp: ${waNum||"(sin número)"}\n\n${l.join("\n")}\n\n${cupon?`Cupón: ${cupon.codigo} (-$${fmt(disc())})\n`:""}Total: $${fmt(total())}\nZona: ${z==="Otra zona"?"Otra zona ("+$("other").value.trim()+")":z||"(sin elegir)"}\nEntrega: ${z==="Otra zona"?"con costo de envío":"en punto de entrega cercano"}\n\nQuedo al pendiente, gracias.`}
 function draw(){const it=Object.entries(cart);if(!it.length){$("dr").hidden=true;return}
@@ -472,14 +473,15 @@ $("open").onclick=$("cartb").onclick=openC;$("close").onclick=()=>$("dr").hidden
 $("zone").onchange=()=>{$("other").hidden=$("zone").value!=="Otra zona";if(!$("other").hidden)$("other").focus();$("msg").value=message();$("send").classList.toggle("ready",!!$("zone").value)};$("other").oninput=()=>$("msg").value=message();
 $("list").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;const i=cart[b.dataset.k],a=b.dataset.a;if(a==="m")i.q=Math.max(1,i.q-1);if(a==="p"){if(b.dataset.k.startsWith("combo:")&&comboLeft()<=0){toast("Solo puedes pedir 2 combos con esta oferta");return}i.q=Math.min(50,i.q+1)}if(a==="del"){const rw=b.closest(".it"),kk=b.dataset.k;rw.classList.add("gone");setTimeout(()=>{delete cart[kk];upd()},300);return}upd();{const q=$("list").querySelector(`.qty button[data-k="${b.dataset.k}"]`);if(q)q.parentNode.querySelector("span").animate([{transform:"scale(1.6)"},{transform:"scale(1)"}],{duration:280,easing:"ease-out"})}});
 $("send").onclick=()=>{const zv=$("zone").value;if(!zv||(zv==="Otra zona"&&!$("other").value.trim())){const s=$("sv");s.classList.remove("err");void s.offsetWidth;s.classList.add("err");(zv?$("other"):$("zone")).focus();toast(zv?"Escribe cuál es tu zona":"Selecciona tu zona para continuar");return}
-if(window.ensureWa){window.ensureWa(()=>{$("ck1").checked=$("ck2").checked=false;$("wok").disabled=true;$("wc").hidden=false})}};async function doSend(){const href="https://wa.me/"+WA+"?text="+encodeURIComponent($("msg").value);
+if(window.ensureWa){window.ensureWa(()=>{$("ck1").checked=$("ck2").checked=false;$("wok").disabled=true;$("wc").hidden=false})}};async function doSend(){let keep=null;if(cupon&&cupon.categoria&&catBase(cupon.categoria)===0){keep=cupon;cupon=null;$("msg").value=message()}
+const href="https://wa.me/"+WA+"?text="+encodeURIComponent($("msg").value);
 if(cupon){toast("Confirmando tu cupón…");
 try{const r=await rpc("usar_cupon",{p_codigo:cupon.codigo,p_whatsapp:waDigits()});
 if(!r||!r.ok){toast("Este cupón ya no está disponible y se quitó de tu pedido. Revisa tu total.");cupon=null;$("cup").disabled=false;$("cup").value="";$("cupb").textContent="Aplicar";$("cupm").hidden=true;upd();return}}
 catch(e){toast("No se pudo confirmar el cupón. Revisa tu conexión e intenta de nuevo.");return}}
 const w=window.open(href,"_blank");if(w){try{w.opener=null}catch(e){}}else{location.href=href}
-toast("¡Pedido enviado! Te esperamos en WhatsApp.");for(const k in cart)delete cart[k];cupon=null;try{$("cup").disabled=false;$("cup").value="";$("cupb").textContent="Aplicar";$("cupm").hidden=true}catch(e){}upd();$("dr").hidden=true;comboCount()}
-const cks=()=>{$("wok").disabled=!($("ck1").checked&&$("ck2").checked)};$("ck1").onchange=$("ck2").onchange=cks;$("wno").onclick=()=>{$("wc").hidden=true};
+toast("¡Pedido enviado! Te esperamos en WhatsApp.");for(const k in cart)delete cart[k];cupon=null;try{$("cup").disabled=false;$("cup").value="";$("cupb").textContent="Aplicar";$("cupm").hidden=true}catch(e){}upd();$("dr").hidden=true;comboCount();if(keep){const n=(({d:"Decant",f:"perfume completo",combo:"combo"})[keep.categoria])||"producto de esa categoría";$("cnt").innerHTML="Tu cupón <b></b> no se utilizó porque su descuento es válido solo en "+(({d:"Decants",f:"Perfumes completos",combo:"Combos"})[keep.categoria]||"esa categoría")+" y tu pedido no incluyó ningún "+n+". Sigue vigente y lo puedes usar en un próximo pedido.";$("cnt").querySelector("b").textContent=keep.codigo;$("cn").hidden=false}}
+const cks=()=>{$("wok").disabled=!($("ck1").checked&&$("ck2").checked)};$("ck1").onchange=$("ck2").onchange=cks;$("wno").onclick=()=>{$("wc").hidden=true};$("cnok").onclick=()=>{$("cn").hidden=true};$("cn").addEventListener("pointerdown",e=>{if(e.target===$("cn"))$("cn").hidden=true});
 $("wok").onclick=()=>{if(!($("ck1").checked&&$("ck2").checked))return;$("wc").hidden=true;doSend()};$("wc").addEventListener("pointerdown",e=>{if(e.target===$("wc"))$("wc").hidden=true});
 /* visor de imágenes */
 let lbP=null;const lbL=()=>GL(lbP);
@@ -591,18 +593,21 @@ $("cwch").onclick=()=>{srvUsed=null;waNum="";inp.value="";try{localStorage.remov
 if(waNum.length>=10)check()})();
 /* cupones validados en el servidor */
 (function(){const inp=$("cup"),btn=$("cupb"),msg=$("cupm"),cf=$("cf");let pend=null,busy=false;
+const CATN={d:["Decants","Decant"],f:["Perfumes completos","perfume completo"],combo:["Combos","combo"]},catNm=c=>CATN[c]||[c,"producto de esa categoría"],hasCat=c=>Object.values(cart).some(i=>i.cat===c);
+const catNote=c=>{const n=catNm(c);return "Este cupón tiene un descuento válido solo en "+n[0]+(hasCat(c)?".":", y en tu pedido no has agregado ningún "+n[1]+". Si agregas uno, el descuento se aplicará.")};
 const say=(t,c)=>{msg.hidden=!t;msg.textContent=t||"";msg.className="cupm "+(c||"")};
+const cupNote=()=>{if(!cupon)return;const c=cupon.categoria;if(!c){say("Cupón aplicado","ok");return}say("Cupón aplicado. "+catNote(c),hasCat(c)?"ok":"warn")};window.cupNote=cupNote;
 const shake=()=>{const r=$("cupr");r.classList.remove("err");void r.offsetWidth;r.classList.add("err")};
 async function apply(){if(cupon){cupon=null;inp.disabled=false;inp.value="";btn.textContent="Aplicar";say("");upd();return}
 if(busy)return;const code=inp.value.trim().toUpperCase().replace(/\s+/g," ");
 if(!code){say("Escribe tu código de cupón");return}
 busy=true;btn.disabled=true;btn.textContent="Verificando…";
 try{const r=await rpc("validar_cupon",{p_codigo:code});
-if(r&&r.valido){pend={codigo:code,tipo:r.tipo,valor:+r.valor,categoria:r.categoria||null};$("cfc").textContent=code;cf.hidden=false;say("")}
+if(r&&r.valido){pend={codigo:code,tipo:r.tipo,valor:+r.valor,categoria:r.categoria||null};{const cn=$("cfn");cn.hidden=!pend.categoria;cn.textContent=pend.categoria?catNote(pend.categoria):""}$("cfc").textContent=code;cf.hidden=false;say("")}
 else{const mo=r&&r.motivo;say(mo==="usado"?"Este cupón ya fue utilizado":mo==="expirado"?"Este cupón ya expiró":"Cupón no válido","bad");shake()}}
 catch(e){say("No se pudo verificar el cupón. Revisa tu conexión e intenta de nuevo.","bad")}
 busy=false;btn.disabled=false;if(!cupon)btn.textContent="Aplicar"}
-$("cfok").onclick=()=>{cf.hidden=true;if(!pend)return;cupon=pend;pend=null;inp.disabled=true;btn.textContent="Quitar";{const catL=cupon.categoria;say(catL?"Cupón aplicado (aplica en "+(catL==="d"?"Decants":catL==="f"?"Perfumes completos":"todo el pedido")+")":"Cupón aplicado","ok")}upd()};
+$("cfok").onclick=()=>{cf.hidden=true;if(!pend)return;cupon=pend;pend=null;inp.disabled=true;btn.textContent="Quitar";upd()};
 const no=()=>{cf.hidden=true;pend=null;say("Cupón cancelado. No se aplicó ningún descuento")};
 $("cfno").onclick=no;cf.addEventListener("pointerdown",e=>{if(e.target===cf)no()});
 btn.onclick=apply;inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();apply()}});inp.addEventListener("input",()=>{if(!cupon)say("")})})();
