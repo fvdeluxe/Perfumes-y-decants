@@ -376,6 +376,7 @@ function chk(){var i=document.getElementById("intro");if(i)seen=true;else if(see
 new MutationObserver(chk).observe(h,{childList:true,subtree:true});setTimeout(un,12000)}catch(e){}})();
 </script>
 <style id="pp">.pr .was{display:block;font:500 12px Inter,sans-serif;color:var(--mu);margin-bottom:3px}.pr .was s{text-decoration-thickness:1px}</style>
+<style>.tot .tv{display:flex;flex-direction:column;align-items:flex-end;gap:5px}#sav{font:600 12px/1 Inter,sans-serif;letter-spacing:.02em;color:#b8ffd8;background:rgba(184,255,216,.1);border:1px solid rgba(184,255,216,.28);border-radius:999px;padding:4px 9px}#sav[hidden]{display:none}html[data-theme=light] #sav{color:#17794a;background:rgba(23,121,74,.09);border-color:rgba(23,121,74,.3)}</style>
 </head>
 <body>
 <canvas id="bg"></canvas>
@@ -403,7 +404,7 @@ new MutationObserver(chk).observe(h,{childList:true,subtree:true});setTimeout(un
 <section id="combo"><div class="cmb rv"><div class="cmi im" id="cmi"><img id="cmimg" alt="Combo 5D's"></div>
 <div class="cm2"><p class="eye">Oferta · Por tiempo limitado</p><h2>Combo <em>5D's</em></h2>
 <p class="cmd">Arma tu combo de 5 decants de 5 ml. Elige los que quieras; puedes repetir el mismo perfume.</p>
-<div class="cmp"><b id="cprice">Desde $250</b><span id="ccnt" hidden>0 / 5</span></div>
+<div class="cmp"><b id="cprice">Desde $300</b><span id="ccnt" hidden>0 / 5</span></div>
 <p class="cori" id="cori" hidden>Precio original del pedido: <span id="coriv"></span></p>
 <button class="btn p" id="cstart" type="button">Armar mi combo</button>
 <div class="cpk" id="cpk" hidden><div id="clist"></div>
@@ -420,7 +421,7 @@ new MutationObserver(chk).observe(h,{childList:true,subtree:true});setTimeout(un
 <div class="bar" id="bar" hidden><span id="bc"></span><button class="btn p" id="open">Ver pedido</button></div>
 <div class="dr" id="dr" hidden><div class="pa"><div class="ph2"><h3>Tu pedido</h3><button class="ib" id="close" aria-label="Cerrar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
 <div id="list"></div><div class="cup"><label for="cup">Código de cupón</label><div class="cupr" id="cupr"><input id="cup" type="text" placeholder="Ingresa tu código" autocomplete="off" autocapitalize="characters" maxlength="24"><button class="btn" id="cupb" type="button">Aplicar</button></div><p class="cupm" id="cupm" hidden></p></div>
-<div class="ori" id="ori" hidden></div><div class="dsc" id="dsc" hidden></div><div class="tot"><span>Total</span><span id="tot"></span></div>
+<div class="ori" id="ori" hidden></div><div class="dsc" id="dsc" hidden></div><div class="tot"><span>Total</span><span class="tv"><span id="tot"></span><small id="sav" hidden></small></span></div>
 <div class="sv" id="sv"><label for="zone">Selecciona la zona donde vives</label><select id="zone"><option value="">Elige una zona</option><option>Valle del Pedregal</option><option>Valle de Puebla</option><option>Ángeles de Puebla</option><option>Ejido Puebla</option><option>Otra zona</option></select><input id="other" type="text" placeholder="¿Cuál zona?" autocomplete="off" hidden style="margin-top:8px"></div>
 <div class="wah"><label for="wanum">Tu número de contacto</label><button class="x" id="wainfo" type="button">Información</button></div>
 <div class="cupr" id="warow"><input id="wanum" type="tel" inputmode="numeric" autocomplete="tel" maxlength="14" placeholder="Ej. 6861234567"><button class="btn" id="walock" type="button" hidden>Cambiar</button></div>
@@ -527,7 +528,7 @@ const ph=n/9000*6.2832,ny=calm?0:-30*Math.cos(ph),nx=calm?8:2+6*Math.cos(ph),sq=
 rot.style.transform=`translateY(${hop}px) scale(${sc*(1-sq*.6)},${sc*(1+sq)}) rotateX(${nx+ox+tx}deg) rotateY(${ny+oy+ty}deg)`;
 face.style.backgroundPosition=`${50+(ny+oy+ty)*.6}% 0`;requestAnimationFrame(f)})(0)})();
 /* ventanas: carrusel fluido */
-const slides=[{k:"",t:"Armaf · Mandarín Sky",p:"100 ml · $750",i:IMG.mand,nw:1},{k:"Oferta",t:"Versace · Eros",p:"100 ml · $1,550",i:IMG.eros},{k:"Oferta",t:"D&G · Pour Homme",p:"125 ml · $1,300",i:IMG.dg},{k:"Nuevo",t:"Afnan · 9pm",p:"Decant 5 ml · $50",i:IMG.pm9},{k:"Nuevo",t:"Lattafa · Khamrah Qahwa",p:"Decant 5 ml · $50",i:IMG.khamrah}];
+const slides=[{k:"",t:"Armaf · Mandarín Sky",p:"100 ml · $750",i:IMG.mand,nw:1},{k:"Oferta",t:"Versace · Eros",p:"100 ml · $1,550",i:IMG.eros},{k:"Oferta",t:"D&G · Pour Homme",p:"125 ml · $1,300",i:IMG.dg},{k:"Nuevo",t:"Afnan · 9pm",p:"Decant 5 ml · $70",i:IMG.pm9},{k:"Nuevo",t:"Lattafa · Khamrah Qahwa",p:"Decant 5 ml · $70",i:IMG.khamrah}];
 const ring=$("ring"),n=slides.length,dots=$("dots"),st=$("stage");
 ring.innerHTML=slides.map(s=>`<div class="pn"><span class="k">${s.k}</span><div class="ph"><img src="${s.i}" alt="${s.t}" draggable="false">${s.nw?'<span class="badge nw l">¡Ya en stock!</span>':""}</div><h3>${s.t}</h3><div class="pp">${s.p}</div></div>`).join("");
 dots.innerHTML=slides.map((s,i)=>`<i data-i="${i}"></i>`).join("");
@@ -550,7 +551,7 @@ const endDrag=e=>{if(!drag)return;drag=false;if(mv<6){const el=document.elements
 $("next").onclick=()=>go(Math.round(tp??pos)+1);$("prev").onclick=()=>go(Math.round(tp??pos)-1);
 dots.addEventListener("click",e=>{const d=e.target.closest("i");if(d)go(near(+d.dataset.i))});
 /* catálogo */
-const P=[{id:"d1",t:"d",g:"ar",b:"Lattafa",n:"Khamrah Qahwa",k:"khamrah",gal:()=>["dKh","kA"],s:[["5 ml",50,80]]},{id:"d2",t:"d",g:"ar",b:"Afnan",n:"9pm",k:"pm9",gal:()=>["dPm","pA"],s:[["5 ml",50,80]]},{id:"d3",t:"d",g:"ar",b:"Armaf",n:"Mandarín Sky",k:"mand",nw:1,gal:()=>["dMa","mA"],s:[["5 ml",60,90]]},{id:"d4",t:"d",g:"eu",b:"Versace",n:"Eros",k:"eros",gal:()=>["dEr","eA"],s:[["5 ml",70,100]]},{id:"d5",t:"d",g:"eu",b:"Dolce & Gabbana",n:"Pour Homme",k:"dg",gal:()=>["dDg","acc"],s:[["5 ml",75,100]]},
+const P=[{id:"d1",t:"d",g:"ar",b:"Lattafa",n:"Khamrah Qahwa",k:"khamrah",gal:()=>["dKh","kA"],s:[["5 ml",70]]},{id:"d2",t:"d",g:"ar",b:"Afnan",n:"9pm",k:"pm9",gal:()=>["dPm","pA"],s:[["5 ml",70]]},{id:"d3",t:"d",g:"ar",b:"Armaf",n:"Mandarín Sky",k:"mand",nw:1,gal:()=>["dMa","mA"],s:[["5 ml",80]]},{id:"d4",t:"d",g:"eu",b:"Versace",n:"Eros",k:"eros",gal:()=>["dEr","eA"],s:[["5 ml",100]]},{id:"d5",t:"d",g:"eu",b:"Dolce & Gabbana",n:"Pour Homme",k:"dg",gal:()=>["dDg","acc"],s:[["5 ml",100]]},
 {id:"f1",t:"f",g:"ar",b:"Lattafa",n:"Khamrah Qahwa",k:"khamrah",gal:()=>["kB","kX","kA"],s:[["100 ml",800,1000]]},{id:"f2",t:"f",g:"ar",b:"Afnan",n:"9pm",k:"pm9",gal:()=>["pB","pX","pA"],s:[["100 ml",780,900]]},{id:"f3",t:"f",g:"ar",b:"Armaf",n:"Mandarín Sky",k:"mand",o:1,nw:1,gal:()=>["mB","mX","mA"],s:[["100 ml",750,900]]},{id:"f4",t:"f",g:"eu",b:"Versace",n:"Eros",k:"eros",gal:i=>i?["e200","eF","eA"]:["e100","eS","eA"],o:1,s:[["100 ml",1550,1800],["200 ml",2000,2300]]},{id:"f5",t:"f",g:"eu",b:"Dolce & Gabbana",n:"Pour Homme",k:"dg",gal:i=>i?["b200a","b200b","b200c","acc"]:["b125","front","close","cap","acc"],o:1,s:[["125 ml",1300,1600],["200 ml",2000,2200]]}];
 P.forEach(p=>{p.i=0;p.q=1;p.gi=0});let filter="all";
 const body=p=>`<div class="br">${p.b}</div><h4>${p.n}</h4><div class="sz">${p.s.length>1?p.s.map((s,i)=>`<button data-a="sz" data-i="${i}" class="${i===p.i?"on":""}">${s[0]}</button>`).join(""):`<span>${p.s[0][0]}</span>`}</div><div class="pr">${p.s[p.i][2]?`<span class="was">Antes <s>$${fmt(p.s[p.i][2])}</s></span>`:""}$${fmt(p.s[p.i][1])}</div>${p.soon?'<div class="sr">Próximo lanzamiento</div>':""}<div class="rw${p.soon?" hide":""}"><div class="qty"><button data-a="m">−</button><span>${p.q}</span><button data-a="p">+</button></div><button class="add" data-a="add"><span class="ht">Agregar</span></button></div>`;
@@ -576,7 +577,7 @@ function message(){const l=Object.values(cart).map(i=>`- ${i.q} x ${i.name} ($${
 return `Hola, quiero hacer este pedido de FVShop:\nNúmero de contacto: ${waNum||"(sin número)"}\n\n${l.join("\n")}\n\n${cupon?`Cupón: ${cupon.codigo} (-$${fmt(disc())})\n`:""}Total: $${fmt(total())}\nZona: ${z==="Otra zona"?"Otra zona ("+$("other").value.trim()+")":z||"(sin elegir)"}\nEntrega: ${z==="Otra zona"?"con costo de envío":"en punto de entrega cercano"}\n\nQuedo al pendiente, gracias.`}
 function draw(){const it=Object.entries(cart);if(!it.length){$("dr").hidden=true;return}
 $("list").innerHTML=it.map(([k,i],n)=>`<div class="it" style="--i:${n}"><img src="${i.img}" alt=""><div>${i.name}<small>$${fmt(i.price)} c/u${i.orig&&i.orig!==i.price?` · precio original <s>$${fmt(i.orig)}</s>`:""}</small><button class="x" data-k="${k}" data-a="del">Quitar</button></div><div class="qty"><button data-k="${k}" data-a="m">−</button><span>${i.q}</span><button data-k="${k}" data-a="p">+</button></div></div>`).join("");
-cnt($("tot"),total());{const o=origSum(),s=sub();$("ori").hidden=!(o>s);$("ori").innerHTML=o>s?`<span>Precio original del pedido</span><span><s>$${fmt(o)}</s></span>`:""}{const d=disc();$("dsc").hidden=!d;$("dsc").innerHTML=d?`<span>Descuento (${cupon.codigo})</span><span>−$${fmt(d)}</span>`:""}$("msg").value=message()}
+cnt($("tot"),total());{const a=origSum()-total(),v=$("sav");v.hidden=a<=0;v.textContent=a>0?"−$"+fmt(a):""}{const o=origSum(),s=sub();$("ori").hidden=!(o>s);$("ori").innerHTML=o>s?`<span>Precio original del pedido</span><span><s>$${fmt(o)}</s></span>`:""}{const d=disc();$("dsc").hidden=!d;$("dsc").innerHTML=d?`<span>Descuento (${cupon.codigo})</span><span>−$${fmt(d)}</span>`:""}$("msg").value=message()}
 const openC=()=>{if(count()){$("dr").hidden=false;draw();$("list").classList.add("enter");setTimeout(()=>$("list").classList.remove("enter"),900)}else toast("Tu carrito está vacío")};
 $("open").onclick=$("cartb").onclick=openC;$("close").onclick=()=>$("dr").hidden=true;$("dr").addEventListener("pointerdown",e=>{if(e.target===$("dr"))$("dr").hidden=true});
 $("zone").onchange=()=>{$("other").hidden=$("zone").value!=="Otra zona";if(!$("other").hidden)$("other").focus();$("msg").value=message();$("send").classList.toggle("ready",!!$("zone").value)};$("other").oninput=()=>$("msg").value=message();
@@ -639,13 +640,13 @@ const up=e=>{if(!g)return;g=false;if(mv<6){const f=document.elementsFromPoint(e.
 (function t(n){const dt=Math.min(3,(n-lt)/16.67||1);lt=n;if(!g){vy+=(sp0-vy)*Math.min(1,.02*dt);vx*=Math.pow(.95,dt);ay+=vy*dt;ax+=vx*dt;ax+=((((-14-ax)+180)%360+360)%360-180)*Math.min(1,.01*dt)}c.style.transform=`rotateX(${ax}deg) rotateY(${ay}deg)`;requestAnimationFrame(t)})(0)})();
 /* combo 5D's */
 (function(){const dec=P.filter(p=>p.t==="d"&&!p.soon),N=5,sel={};let ndx=0,ndy=0;
-const pr=b=>b>50?Math.max(50,b-10):b;
+const pr=b=>b>=100?b-20:b>50?b-10:b;
 const qn=()=>Object.values(sel).reduce((a,b)=>a+b,0),tot=()=>dec.reduce((a,p)=>a+(sel[p.id]||0)*pr(p.s[0][1]),0);
 const nm=p=>p.b+" "+p.n,th=p=>GAL[p.gal()[0]],list=$("clist");
 $("cmimg").src=GAL.combo;$("cmi").onclick=()=>openLb({id:"c1",b:"FVShop",n:"Combo 5D's",gal:()=>["combo"],gi:0,i:0});
 list.innerHTML=dec.map(p=>`<div class="cr" data-id="${p.id}"><img src="${th(p)}" alt=""><span>${nm(p)}</span><div class="qty"><button type="button" data-d="-1" aria-label="Menos">−</button><b>0</b><button type="button" data-d="1" aria-label="Más">+</button></div></div>`).join("");
 function ui(){const c=qn();list.querySelectorAll(".cr").forEach(r=>{const q=sel[r.dataset.id]||0;r.querySelector("b").textContent=q;r.classList.toggle("on",q>0);r.querySelector('[data-d="1"]').disabled=c>=N;r.querySelector('[data-d="-1"]').disabled=q<=0});
-$("cprice").textContent=c?"$"+fmt(tot()):"Desde $250";{const o=dec.reduce((a,p)=>a+(sel[p.id]||0)*p.s[0][1],0);$("cori").hidden=!c;if(c){$("coriv").textContent="$"+fmt(o);$("coriv").className=o>tot()?"diff":""}}const cc=$("ccnt");cc.hidden=!c;cc.textContent=c+" / "+N;
+$("cprice").textContent=c?"$"+fmt(tot()):"Desde $300";{const o=dec.reduce((a,p)=>a+(sel[p.id]||0)*p.s[0][1],0);$("cori").hidden=!c;if(c){$("coriv").textContent="$"+fmt(o);$("coriv").className=o>tot()?"diff":""}}const cc=$("ccnt");cc.hidden=!c;cc.textContent=c+" / "+N;
 const ok=c===N;$("cadd").disabled=!ok;$("caddt").textContent=ok?"Agregar combo":(c?"Faltan "+(N-c):"Elige 5 decants")}
 list.addEventListener("click",e=>{const b=e.target.closest("button[data-d]");if(!b||b.disabled)return;const id=b.closest(".cr").dataset.id,d=+b.dataset.d;if(d>0&&qn()>=N)return;sel[id]=Math.max(0,(sel[id]||0)+d);ui();$("cprice").animate([{transform:"scale(1.1)"},{transform:"scale(1)"}],{duration:220})});
 window.cbState=()=>{};
@@ -789,7 +790,7 @@ g("favopen").onclick=()=>{rf();g("fv").hidden=false};
 g("fvl").addEventListener("click",e=>{const b=e.target.closest("[data-r]");if(!b)return;const id=b.closest(".fvr").dataset.id;if(b.dataset.r==="del"){tog(id);rf()}else{g("fv").hidden=true;goTo(id)}});
 g("fva").onclick=()=>{g("fv").hidden=true;showAll(()=>[...fav].forEach((id,i)=>setTimeout(()=>{const c=cardOf(id),b=c&&!c.classList.contains("soon")&&c.querySelector('[data-a="add"]');if(b)b.click()},i*160)))}});
 run(()=>{const K="fv-cart";let last="";
-try{const o=JSON.parse(localStorage.getItem(K)||"{}");if(!Object.keys(cart).length&&o.c&&Date.now()-o.t<6048e5){for(const[k,v]of Object.entries(o.c)){if(k.startsWith("combo")){v.img=GAL.combo}else{const p=gp(k.split("-")[0]),i=+k.split("-")[1];if(!p||!p.s[i])continue;v.price=p.s[i][1];v.img=imgOf(p)}cart[k]=v}upd()}}catch(e){}
+try{const o=JSON.parse(localStorage.getItem(K)||"{}");if(!Object.keys(cart).length&&o.c&&Date.now()-o.t<6048e5){for(const[k,v]of Object.entries(o.c)){if(k.startsWith("combo")){v.img=GAL.combo;const dc=P.filter(p=>p.t==="d"&&!p.soon),ct=k.split(":")[1].split("-").map(Number);if(ct.length===dc.length){v.price=dc.reduce((a,p,j)=>a+ct[j]*((b=>b>=100?b-20:b>50?b-10:b)(p.s[0][1])),0);v.orig=dc.reduce((a,p,j)=>a+ct[j]*p.s[0][1],0)}}else{const p=gp(k.split("-")[0]),i=+k.split("-")[1];if(!p||!p.s[i])continue;v.price=p.s[i][1];v.img=imgOf(p)}cart[k]=v}upd()}}catch(e){}
 const save=()=>{try{const c={};for(const[k,v]of Object.entries(cart)){const{img,...r}=v;c[k]=r}const j=JSON.stringify(c);if(j!==last){last=j;localStorage.setItem(K,JSON.stringify({t:Date.now(),c:c}))}}catch(e){}};
 setInterval(save,1500);addEventListener("pagehide",save);document.addEventListener("visibilitychange",save)});
 run(()=>{const cpk=g("cpk"),cc=g("ccnt"),sl=document.createElement("div");sl.className="sl";sl.innerHTML='<svg class="sb" viewBox="0 0 24 40" aria-hidden="true"><path d="M9 6V3h6v3h2v7l2 3v21H5V16l2-3V6z"/></svg>'.repeat(5);cpk.prepend(sl);
